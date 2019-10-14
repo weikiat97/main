@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.classroom.Classroom;
 import seedu.address.model.student.Student;
 
 /**
@@ -85,4 +86,30 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredStudentList(Predicate<Student> predicate);
+
+    /**
+     * Returns true if a classroom with the same identity as {@code classroom} exists in the Teacher's Notebook.
+     */
+    boolean hasClassroom(Classroom classroom);
+
+    /**
+     * Deletes the given classroom.
+     * The classroom must exist in the Teacher's Notebook.
+     */
+    void deleteClassroom(Classroom target);
+
+    /**
+     * Adds the given classroom.
+     * {@code classroom} must not already exist in the Teacher's Notebook.
+     */
+    void addClassroom(Classroom classroom);
+
+    /** Returns an unmodifiable view of the filtered classroom list */
+    ObservableList<Classroom> getFilteredClassroomList();
+
+    /**
+     * Updates the filter of the filtered classroom list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredClassroomList(Predicate<Classroom> predicate);
 }
