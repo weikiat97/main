@@ -11,6 +11,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.memento.Memento;
 import seedu.address.model.student.Student;
 
 /**
@@ -43,6 +44,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the address book";
 
     private final Student toAdd;
+    private Memento memento;
 
     /**
      * Creates an AddCommand to add the specified {@code Student}
@@ -64,6 +66,11 @@ public class AddCommand extends Command {
         model.addStudent(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
+
+    public void undo() {
+        this.toAdd = memento.getState();
+    }
+
 
     @Override
     public boolean equals(Object other) {

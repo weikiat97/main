@@ -27,6 +27,12 @@ public class AddressBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
+    private LinkedList<Command> commandStack = new LinkedList<Command>();
+    private LinkedList<Command> redoStack = new LinkedList<Command>();
+
+    public static final String MESSAGE_NOTHING_TO_UNDO = "There is nothing to undo!";
+    public static final String MESSAGE_NOTHING_TO_REDO = "There is nothing to redo!";
+
     /**
      * Parses user input into command for execution.
      *
