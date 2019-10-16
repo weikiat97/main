@@ -61,59 +61,59 @@ public class UniqueClassroomList implements Iterable<Classroom> {
             throw new ClassroomNotFoundException();
         }
 
-        if (!target.isSameStudent(editedStudent) && contains(editedStudent)) {
-            throw new DuplicateStudentException();
+        if (!target.isSameClassroom(editedClassroom) && contains(editedClassroom)) {
+            throw new DuplicateClassroomException();
         }
 
-        internalList.set(index, editedStudent);
+        internalList.set(index, editedClassroom);
     }
 
     /**
-     * Removes the equivalent student from the list.
-     * The student must exist in the list.
+     * Removes the equivalent classroom from the list.
+     * The classroom must exist in the list.
      */
-    public void remove(Student toRemove) {
+    public void remove(Classroom toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
-            throw new StudentNotFoundException();
+            throw new ClassroomNotFoundException();
         }
     }
 
-    public void setStudents(UniqueStudentList replacement) {
+    public void setClassrooms(UniqueClassroomList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
 
     /**
-     * Replaces the contents of this list with {@code students}.
-     * {@code students} must not contain duplicate students.
+     * Replaces the contents of this list with {@code classrooms}.
+     * {@code classrooms} must not contain duplicate classrooms.
      */
-    public void setStudents(List<Student> students) {
-        requireAllNonNull(students);
-        if (!studentsAreUnique(students)) {
-            throw new DuplicateStudentException();
+    public void setClassrooms(List<Classroom> classrooms) {
+        requireAllNonNull(classrooms);
+        if (!classroomsAreUnique(classrooms)) {
+            throw new DuplicateClassroomException();
         }
 
-        internalList.setAll(students);
+        internalList.setAll(classrooms);
     }
 
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<Student> asUnmodifiableObservableList() {
+    public ObservableList<Classroom> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
 
     @Override
-    public Iterator<Student> iterator() {
+    public Iterator<Classroom> iterator() {
         return internalList.iterator();
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof UniqueStudentList // instanceof handles nulls
-                && internalList.equals(((UniqueStudentList) other).internalList));
+                || (other instanceof UniqueClassroomList // instanceof handles nulls
+                && internalList.equals(((UniqueClassroomList) other).internalList));
     }
 
     @Override
@@ -122,12 +122,12 @@ public class UniqueClassroomList implements Iterable<Classroom> {
     }
 
     /**
-     * Returns true if {@code students} contains only unique students.
+     * Returns true if {@code classrooms} contains only unique classrooms.
      */
-    private boolean studentsAreUnique(List<Student> students) {
-        for (int i = 0; i < students.size() - 1; i++) {
-            for (int j = i + 1; j < students.size(); j++) {
-                if (students.get(i).isSameStudent(students.get(j))) {
+    private boolean classroomsAreUnique(List<Classroom> classrooms) {
+        for (int i = 0; i < classrooms.size() - 1; i++) {
+            for (int j = i + 1; j < classrooms.size(); j++) {
+                if (classrooms.get(i).isSameClassroom(classrooms.get(j))) {
                     return false;
                 }
             }

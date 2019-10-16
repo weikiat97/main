@@ -9,12 +9,15 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.assignment.Assignment;
+import seedu.address.model.classroom.ClassroomName;
 import seedu.address.model.student.Address;
 import seedu.address.model.student.Email;
 import seedu.address.model.student.MedicalCondition;
 import seedu.address.model.student.Name;
 import seedu.address.model.student.ParentPhone;
 import seedu.address.model.student.Phone;
+import seedu.address.model.student.Student;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -152,5 +155,47 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String classroomName} into a {@code ClassroomName}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code classroomName} is invalid.
+     */
+    public static ClassroomName parseClassroomName(String classroomName) throws ParseException {
+        requireNonNull(classroomName);
+        String trimmedClassroomName = classroomName.trim();
+        if (!ClassroomName.isValidClassroomName(trimmedClassroomName)) {
+            throw new ParseException(ClassroomName.MESSAGE_CONSTRAINTS);
+        }
+        return new ClassroomName(trimmedClassroomName);
+    }
+
+    /**
+     * Parses a {@code String assignment} into a {@code Assignment}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code assignment} is invalid.
+     */
+    public static Assignment parseAssignment(String assignment) throws ParseException {
+        requireNonNull(assignment);
+        String trimmedAssignment = assignment.trim();
+        if (!Assignment.isValidAssignmentName(trimmedAssignment)) {
+            throw new ParseException(Assignment.MESSAGE_CONSTRAINTS);
+        }
+        return new Assignment(trimmedAssignment);
+    }
+
+    /**
+     * Parses {@code Collection<String> assignments} into a {@code Set<Assignment>}.
+     */
+    public static Set<Assignment> parseAssignments(Collection<String> assignments) throws ParseException {
+        requireNonNull(assignments);
+        final Set<Assignment> assignmentSet = new HashSet<>();
+        for (String assignmentName : assignments) {
+            assignmentSet.add(parseAssignment(assignmentName));
+        }
+        return assignmentSet;
     }
 }

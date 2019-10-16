@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import seedu.address.model.tag.Tag;
+import seedu.address.model.assignment.Assignment;
+import seedu.address.model.student.Student;
 
 /**
  * Represents a Classroom in the address book.
@@ -16,80 +17,60 @@ import seedu.address.model.tag.Tag;
 public class Classroom {
 
     // Identity fields
-    private final Name name;
-    private final Phone phone;
-    private final Email email;
+    private final ClassroomName classroomName;
+
 
     // Data fields
-    private final ParentPhone parentPhone;
-    private final Address address;
-    private final MedicalCondition medicalCondition;
-    private final Set<Tag> tags = new HashSet<>();
+    private final Set<Assignment> assignments = new HashSet<>();
+    private final Set<Student> students = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Student(Name name, Phone phone, Email email, ParentPhone parentPhone, Address address,
-                   MedicalCondition medicalCondition, Set<Tag> tags) {
-        requireAllNonNull(name, parentPhone, phone, email, address, medicalCondition, tags);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.parentPhone = parentPhone;
-        this.address = address;
-        this.medicalCondition = medicalCondition;
-        this.tags.addAll(tags);
+    public Classroom(ClassroomName classroomName, Set<Student> students, Set<Assignment> assignments) {
+        requireAllNonNull(classroomName, students, assignments);
+        this.classroomName = classroomName;
+        this.students.addAll(students);
+        this.assignments.addAll(assignments);
     }
 
-    public Name getName() {
-        return name;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public Email getEmail() {
-        return email;
-    }
-
-    public ParentPhone getParentPhone() {
-        return parentPhone;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public MedicalCondition getMedicalCondition() {
-        return medicalCondition;
+    public ClassroomName getClassroomName() {
+        return classroomName;
     }
 
     /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * Returns an immutable student set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
+    public Set<Student> getStudents() {
+        return Collections.unmodifiableSet(students);
     }
 
     /**
-     * Returns true if both students of the same name have at least one other identity field that is the same.
-     * This defines a weaker notion of equality between two students.
+     * Returns an immutable assignment set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
      */
-    public boolean isSameStudent(Student otherStudent) {
-        if (otherStudent == this) {
+    public Set<Assignment> getAssignments() {
+        return Collections.unmodifiableSet(assignments);
+    }
+
+    /**
+     * Returns true if both classrooms of the same classroom name have the same students.
+     * This defines a weaker notion of equality between two classrooms.
+     */
+    public boolean isSameClassroom(Classroom otherClassroom) {
+        if (otherClassroom == this) {
             return true;
         }
 
-        return otherStudent != null
-                && otherStudent.getName().equals(getName())
-                && (otherStudent.getPhone().equals(getPhone()) || otherStudent.getEmail().equals(getEmail()));
+        return otherClassroom != null
+                && otherClassroom.getClassroomName().equals(getClassroomName())
+                && otherClassroom.getStudents().equals(getStudents());
     }
 
     /**
-     * Returns true if both students have the same identity and data fields.
-     * This defines a stronger notion of equality between two students.
+     * Returns true if both classrooms have the same identity and data fields.
+     * This defines a stronger notion of equality between two classrooms.
      */
     @Override
     public boolean equals(Object other) {
@@ -97,42 +78,30 @@ public class Classroom {
             return true;
         }
 
-        if (!(other instanceof Student)) {
+        if (!(other instanceof Classroom)) {
             return false;
         }
 
-        Student otherStudent = (Student) other;
-        return otherStudent.getName().equals(getName())
-                && otherStudent.getPhone().equals(getPhone())
-                && otherStudent.getEmail().equals(getEmail())
-                && otherStudent.getParentPhone().equals(getParentPhone())
-                && otherStudent.getAddress().equals(getAddress())
-                && otherStudent.getMedicalCondition().equals(getMedicalCondition())
-                && otherStudent.getTags().equals(getTags());
+        Classroom otherClassroom = (Classroom) other;
+        return otherClassroom.getClassroomName().equals(getClassroomName())
+                && otherClassroom.getStudents().equals(getStudents())
+                && otherClassroom.getAssignments().equals(getAssignments());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, parentPhone, address, tags);
+        return Objects.hash(classroomName, students, assignments);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName())
-                .append(" Phone: ")
-                .append(getPhone())
-                .append(" Email: ")
-                .append(getEmail())
-                .append(" Parent's Phone: ")
-                .append(getParentPhone())
-                .append(" Address: ")
-                .append(getAddress())
-                .append(" Medical Conditions(s): ")
-                .append(getMedicalCondition())
-                .append(" Tags: ");
-        getTags().forEach(builder::append);
+        builder.append(getClassroomName())
+                .append(" Students: ");
+        getStudents().forEach(builder::append);
+        builder.append(" Assignments: ");
+        getAssignments().forEach(builder::append);
         return builder.toString();
     }
 

@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.classroom.Classroom;
 import seedu.address.model.student.Student;
 
 /**
@@ -22,6 +23,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Student> filteredStudents;
+    private final FilteredList<Classroom> filteredClassrooms;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -35,6 +37,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredStudents = new FilteredList<>(this.addressBook.getStudentList());
+        filteredClassrooms = new FilteredList<>(this.addressBook.getClassroomList());
     }
 
     public ModelManager() {
@@ -112,6 +115,30 @@ public class ModelManager implements Model {
         addressBook.setStudent(target, editedStudent);
     }
 
+    @Override
+    public boolean hasClassroom(Classroom classroom) {
+        requireNonNull(classroom);
+        return addressBook.hasClassroom(classroom);
+    }
+
+    @Override
+    public void deleteClassroom(Classroom target) {
+        addressBook.removeClassroom(target);
+    }
+
+    @Override
+    public void addClassroom(Classroom classroom) {
+        addressBook.addClassroom(classroom);
+        updateFilteredClassroomList(PREDICATE_SHOW_ALL_CLASSROOMS);
+    }
+
+    @Override
+    public void setClassroom(Classroom target, Classroom editedClassroom) {
+        requireAllNonNull(target, editedClassroom);
+
+        addressBook.setClassroom(target, editedClassroom);
+    }
+
     //=========== Filtered Student List Accessors =============================================================
 
     /**
@@ -123,10 +150,25 @@ public class ModelManager implements Model {
         return filteredStudents;
     }
 
+    /**
+     * Returns an unmodifiable view of the list of {@code Classroom} backed by the internal list of
+     * {@code versionedAddressBook}
+     */
+    @Override
+    public ObservableList<Classroom> getFilteredClassroomList() {
+        return filteredClassrooms;
+    }
+
     @Override
     public void updateFilteredStudentList(Predicate<Student> predicate) {
         requireNonNull(predicate);
         filteredStudents.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredClassroomList(Predicate<Classroom> predicate) {
+        requireNonNull(predicate);
+        filteredClassrooms.setPredicate(predicate);
     }
 
     @Override
@@ -145,7 +187,8 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
                 && userPrefs.equals(other.userPrefs)
-                && filteredStudents.equals(other.filteredStudents);
+                && filteredStudents.equals(other.filteredStudents)
+                && filteredClassrooms.equals(other.filteredClassrooms);
     }
 
 }

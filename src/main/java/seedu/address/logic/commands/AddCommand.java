@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASSROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEDICALCONDITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -9,9 +10,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENTPHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import seedu.address.commons.core.Messages;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.classroom.Classroom;
+import seedu.address.model.classroom.ClassroomName;
 import seedu.address.model.student.Student;
+
+import java.util.List;
 
 /**
  * Adds a student to the address book.
@@ -22,6 +29,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a student to the Teacher's Notebook. "
             + "Parameters: "
+            + PREFIX_CLASSROOM + "CLASSROOM "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
@@ -30,6 +38,7 @@ public class AddCommand extends Command {
             + "[" + PREFIX_MEDICALCONDITION + "MEDICALCONDITION] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
+            + PREFIX_CLASSROOM + "4E3"
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com "
@@ -56,7 +65,23 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        /*
+        List<Classroom> lastShownList = model.getFilteredClassroomList();
+        Index index = Index.fromZeroBased(0);
+        boolean classroomExists = false;
 
+        for (int i = 0; i < lastShownList.size(); i++) {
+            Classroom classroom = lastShownList.get(i);
+            if (classroom.getClassroomName().equals(this.classroomName)) {
+                index = Index.fromZeroBased(i);
+                classroomExists = true;
+                break;
+            }
+        }
+        if (!classroomExists) {
+            throw new CommandException(Messages.MESSAGE_INVALID_CLASSROOM);
+        }
+        */
         if (model.hasStudent(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
         }

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.classroom.Classroom;
 import seedu.address.model.student.Student;
 
 /**
@@ -19,16 +20,16 @@ import seedu.address.model.student.Student;
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
 
-    public static final String MESSAGE_DUPLICATE_STUDENT = "Students list contains duplicate student(s).";
+    public static final String MESSAGE_DUPLICATE_CLASSROOM = "Classroom list contains duplicate classroom(s).";
 
-    private final List<JsonAdaptedStudent> students = new ArrayList<>();
+    private final List<JsonAdaptedClassroom> classrooms = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given students.
+     * Constructs a {@code JsonSerializableAddressBook} with the given classrooms.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("students") List<JsonAdaptedStudent> students) {
-        this.students.addAll(students);
+    public JsonSerializableAddressBook(@JsonProperty("classrooms") List<JsonAdaptedClassroom> classrooms) {
+        this.classrooms.addAll(classrooms);
     }
 
     /**
@@ -37,7 +38,7 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        students.addAll(source.getStudentList().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
+        classrooms.addAll(source.getClassroomList().stream().map(JsonAdaptedClassroom::new).collect(Collectors.toList()));
     }
 
     /**
@@ -47,12 +48,12 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedStudent jsonAdaptedStudent : students) {
-            Student student = jsonAdaptedStudent.toModelType();
-            if (addressBook.hasStudent(student)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_STUDENT);
+        for (JsonAdaptedClassroom jsonAdaptedClassroom : classrooms) {
+            Classroom classroom = jsonAdaptedClassroom.toModelType();
+            if (addressBook.hasClassroom(classroom)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_CLASSROOM);
             }
-            addressBook.addStudent(student);
+            addressBook.addClassroom(classroom);
         }
         return addressBook;
     }

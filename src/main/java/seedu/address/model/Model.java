@@ -14,6 +14,7 @@ import seedu.address.model.student.Student;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Student> PREDICATE_SHOW_ALL_STUDENTS = unused -> true;
+    Predicate<Classroom> PREDICATE_SHOW_ALL_CLASSROOMS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -78,6 +79,31 @@ public interface Model {
      */
     void setStudent(Student target, Student editedStudent);
 
+    /**
+     * Returns true if a classroom with the same identity as {@code classroom} exists in the address book.
+     */
+    boolean hasClassroom(Classroom classroom);
+
+    /**
+     * Deletes the given classroom.
+     * The classroom must exist in the address book.
+     */
+    void deleteClassroom(Classroom target);
+
+    /**
+     * Adds the given classroom.
+     * {@code classroom} must not already exist in the address book.
+     */
+    void addClassroom(Classroom classroom);
+
+    /**
+     * Replaces the given classroom {@code target} with {@code editedClassroom}.
+     * {@code target} must exist in the address book.
+     * The classroom identity of {@code editedClassroom} must not be the same as another existing classroom in the
+     * address book.
+     */
+    void setClassroom(Classroom target, Classroom editedStudent);
+
     /** Returns an unmodifiable view of the filtered student list */
     ObservableList<Student> getFilteredStudentList();
 
@@ -87,23 +113,6 @@ public interface Model {
      */
     void updateFilteredStudentList(Predicate<Student> predicate);
 
-    /**
-     * Returns true if a classroom with the same identity as {@code classroom} exists in the Teacher's Notebook.
-     */
-    boolean hasClassroom(Classroom classroom);
-
-    /**
-     * Deletes the given classroom.
-     * The classroom must exist in the Teacher's Notebook.
-     */
-    void deleteClassroom(Classroom target);
-
-    /**
-     * Adds the given classroom.
-     * {@code classroom} must not already exist in the Teacher's Notebook.
-     */
-    void addClassroom(Classroom classroom);
-
     /** Returns an unmodifiable view of the filtered classroom list */
     ObservableList<Classroom> getFilteredClassroomList();
 
@@ -112,4 +121,5 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredClassroomList(Predicate<Classroom> predicate);
+
 }
