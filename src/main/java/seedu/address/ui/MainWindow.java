@@ -1,9 +1,17 @@
 package seedu.address.ui;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputControl;
@@ -11,12 +19,19 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.lesson.Lesson;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -37,6 +52,10 @@ public class MainWindow extends UiPart<Stage> {
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
     private ReminderListPanel reminderListPanel;
+    private ArrayList<Lesson> previousLessonsCopy;
+
+    public static final String ALERT_DIALOG_PANE_FIELD_ID = "alertDialogPane";
+    public static final String ALERT_SOUND_PATH = "/alert.wav";
 
 
     @FXML
@@ -203,9 +222,11 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
+            previousLessonsCopy = new ArrayList<Lesson>(logic.getFilteredLessonList());
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+            createAllReminders();
 
             if (logic.isDisplayStudents()) {
                 combinedListPanelPlaceholder.getChildren().clear();
@@ -230,5 +251,97 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
+    }
+    void showAlertDialogAndWait(Alert.AlertType type, String title, String headerText, String contentText) {
+        showAlertDialogAndWait(getPrimaryStage(), type, title, headerText, contentText);
+    }
+
+    /**
+     * Shows an alert dialog on {@code owner} with the given parameters.
+     * This method only returns after the user has closed the alert dialog.
+     */
+    private static void showAlertDialogAndWait(Stage owner, Alert.AlertType type, String title, String headerText,
+                                               String contentText) {
+        final Alert alert = new Alert(type);
+        alert.getDialogPane().getStylesheets().add("view/DarkTheme.css");
+        alert.initOwner(owner);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.getDialogPane().setId(ALERT_DIALOG_PANE_FIELD_ID);
+        alert.showAndWait();
+    }
+
+    /**
+     * function to make all reminders
+     */
+    public void createAllReminders() {
+        ObservableList<Lesson> allReminders = logic.getFilteredLessonList();
+        for (Lesson lesson : allReminders) {
+            if (!previousLessonsCopy.contains(lesson)) {
+                Calendar lessonTime = lesson.getStartTime().getTime();
+                long initialDelay = lessonTime.getTimeInMillis() - System.currentTimeMillis();
+                createReminder(initialDelay, "Lesson", lesson.toString());
+            }
+        }
+    }
+
+    /**
+     * function to make reminders
+     * called by scheduler commands
+     * @param duration
+     * @param reminderType
+     * @param reminderDetails
+     */
+    private void createReminder(long duration, String reminderType, String reminderDetails) {
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(duration),
+                ae -> countDownAlert(reminderType, reminderDetails)));
+        timeline.play();
+    }
+
+    /**
+     * alert for scheduler.
+     * sets properties of alert then
+     * plays sound file and shows alert dialog
+     */
+    private void countDownAlert(String reminderType, String reminderDetails) {
+
+        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().getStylesheets().add("view/DarkTheme.css");
+        alert.initOwner(getPrimaryStage());
+        alert.setTitle("Reminder!");
+        alert.setHeaderText(reminderType);
+        alert.setContentText(reminderDetails);
+        playSound();
+        alert.show();
+
+    }
+    /**
+     * handles playing alert audio for scheduled alert.
+     * get .wav file from resource folder as input stream,
+     * then open and play.
+     */
+    private void playSound() {
+        try {
+            InputStream inputStream = this.getClass().getResourceAsStream(ALERT_SOUND_PATH);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+            Clip sound = AudioSystem.getClip();
+            sound.open(audioStream);
+            sound.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Shows an error alert dialog with {@code title} and error message, {@code e},
+     * and exits the application after the user has closed the alert dialog.
+     */
+    private void showFatalErrorDialogAndShutdown(String title, Throwable e) {
+        logger.severe(title + " " + e.getMessage() + StringUtil.getDetails(e));
+        showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
+        Platform.exit();
+        System.exit(1);
     }
 }

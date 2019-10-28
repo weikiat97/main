@@ -52,6 +52,7 @@ public class UiManager implements Ui {
             mainWindow = new MainWindow(primaryStage, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+            mainWindow.createAllReminders();
             //createReminder(10000, "U r weird", "but u r cool");
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
@@ -90,12 +91,13 @@ public class UiManager implements Ui {
      * @param reminderType
      * @param reminderDetails
      */
-    private void createReminder(int duration, String reminderType, String reminderDetails) {
+    private void createReminder(long duration, String reminderType, String reminderDetails) {
         Timeline timeline = new Timeline(new KeyFrame(
             Duration.millis(duration),
             ae -> countDownAlert(reminderType, reminderDetails)));
         timeline.play();
     }
+
     /**
      * alert for scheduler.
      * sets properties of alert then
@@ -129,6 +131,7 @@ public class UiManager implements Ui {
             System.out.println(e.getMessage());
         }
     }
+
     /**
      * Shows an error alert dialog with {@code title} and error message, {@code e},
      * and exits the application after the user has closed the alert dialog.
