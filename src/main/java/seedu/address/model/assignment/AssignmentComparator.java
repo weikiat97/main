@@ -12,8 +12,11 @@ public class AssignmentComparator implements Comparator<Assignment> {
         if (assignment1.getAssignmentDeadline().getAssignmentDeadlineCalendar()
                 .before(assignment2.getAssignmentDeadline().getAssignmentDeadlineCalendar())) {
             return -1;
-        } else {
+        } else if (assignment1.getAssignmentDeadline().getAssignmentDeadlineCalendar()
+                .after(assignment2.getAssignmentDeadline().getAssignmentDeadlineCalendar())) {
             return 1;
+        } else {
+            return assignment1.getAssignmentName().toString().compareTo(assignment2.getAssignmentName().toString());
         }
     }
 

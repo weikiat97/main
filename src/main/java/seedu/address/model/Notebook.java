@@ -78,6 +78,8 @@ public class Notebook implements ReadOnlyNotebook {
 
 
     public Classroom currentClassroom() {
+        System.out.println("AM I AT CURRENT CLASSROOM");
+        System.out.println("Current classroom name: " + classrooms.get(currentClassroom).getClassroomName());
         return classrooms.get(currentClassroom);
     }
 

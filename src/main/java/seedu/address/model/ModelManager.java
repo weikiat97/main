@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.assignment.Assignment;
+import seedu.address.model.classroom.Classroom;
 import seedu.address.model.classroom.ReadOnlyClassroom;
 import seedu.address.model.lesson.Lesson;
 //import seedu.address.model.scheduler.Reminder;
@@ -27,9 +28,10 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final Caretaker caretaker;
     private final FilteredList<Student> filteredStudents;
-    //private FilteredList<Reminder> filteredReminders;
     private final FilteredList<Assignment> filteredAssignments;
+    //private FilteredList<Reminder> filteredReminders;
     private final FilteredList<Lesson> filteredLessons;
+    private final FilteredList<Classroom> filteredClassrooms;
 
     /**
      * Initializes a ModelManager with the given notebook and userPrefs.
@@ -46,6 +48,7 @@ public class ModelManager implements Model {
         filteredStudents = new FilteredList<>(getCurrentClassroom().getStudentList());
         filteredAssignments = new FilteredList<>(getCurrentClassroom().getAssignmentList());
         filteredLessons = new FilteredList<>(notebook.getLessonList());
+        filteredClassrooms = new FilteredList<>(notebook.getClassroomList());
     }
 
     public ModelManager() {
@@ -199,23 +202,36 @@ public class ModelManager implements Model {
      * Returns an unmodifiable view of the list of {@code Student} backed by the internal list of
      * {@code Caretaker}
      */
-    /**
-     * Returns an unmodifiable view of the list of {@code Student} backed by the internal list of
-     * {@code Caretaker}
-     */
     @Override
     public ObservableList<Student> getFilteredStudentList() {
         return filteredStudents;
     }
 
+    /**
+     * Returns an unmodifiable view of the list of {@code Assignment} backed by the internal list of
+     * {@code Caretaker}
+     */
     @Override
     public ObservableList<Assignment> getFilteredAssignmentList() {
         return filteredAssignments;
     }
 
+    /**
+     * Returns an unmodifiable view of the list of {@code Lesson} backed by the internal list of
+     * {@code Caretaker}
+     */
     @Override
     public ObservableList<Lesson> getFilteredLessonList() {
         return filteredLessons;
+    }
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Classroom} backed by the internal list of
+     * {@code Caretaker}
+     */
+    @Override
+    public ObservableList<Classroom> getFilteredClassroomList() {
+        return filteredClassrooms;
     }
 
     /*
@@ -241,6 +257,12 @@ public class ModelManager implements Model {
     public void updateFilteredLessonList(Predicate<Lesson> predicate) {
         requireNonNull(predicate);
         filteredLessons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredClassroomList(Predicate<Classroom> predicate) {
+        requireNonNull(predicate);
+        filteredClassrooms.setPredicate(predicate);
     }
 
 

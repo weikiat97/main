@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.assignment.Assignment;
+import seedu.address.model.classroom.Classroom;
 import seedu.address.model.classroom.ReadOnlyClassroom;
 import seedu.address.model.lesson.Lesson;
 //import seedu.address.model.scheduler.Reminder;
@@ -19,6 +20,7 @@ public interface Model {
     Predicate<Student> PREDICATE_SHOW_ALL_STUDENTS = unused -> true;
     Predicate<Assignment> PREDICATE_SHOW_ALL_ASSIGNMENTS = unused -> true;
     Predicate<Lesson> PREDICATE_SHOW_ALL_LESSONS = unused -> true;
+    Predicate<Classroom> PREDICATE_SHOW_ALL_CLASSROOMS = unused -> true;
     Predicate<Student> PREDICATE_SHOW_NO_STUDENTS = used -> false;
     Predicate<Assignment> PREDICATE_SHOW_NO_ASSIGNMENTS = used -> false;
 
@@ -97,7 +99,12 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered assignment list */
     ObservableList<Assignment> getFilteredAssignmentList();
+
+    /** Returns an unmodifiable view of the filtered lesson list */
     ObservableList<Lesson> getFilteredLessonList();
+
+    /** Returns an unmodifiable view of the filtered classroom list */
+    ObservableList<Classroom> getFilteredClassroomList();
 
     /**
      * Updates the filter of the filtered student list to filter by the given {@code predicate}.
@@ -111,7 +118,17 @@ public interface Model {
      */
     void updateFilteredAssignmentList(Predicate<Assignment> predicate);
 
+    /**
+     * Updates the filter of the filtered lesson list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
     void updateFilteredLessonList(Predicate<Lesson> predicate);
+
+    /**
+     * Updates the filter of the filtered classroom list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredClassroomList(Predicate<Classroom> predicate);
 
     //ObservableList<Reminder> getFilteredReminderList(Predicate<Reminder> predicate);
 
