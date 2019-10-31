@@ -1,7 +1,7 @@
 package seedu.address.model;
 
 /**
- * Represents a state of the Classroom.
+ * Represents a state of the Notebook.
  */
 public class Memento {
 

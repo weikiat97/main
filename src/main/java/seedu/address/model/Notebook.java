@@ -9,14 +9,16 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.assignment.Assignment;
+//import seedu.address.model.assignment.UniqueAssignmentList;
 import seedu.address.model.classroom.Classroom;
 import seedu.address.model.classroom.ReadOnlyClassroom;
 import seedu.address.model.classroom.UniqueClassroomList;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.UniqueLessonList;
-import seedu.address.model.scheduler.Reminder;
-import seedu.address.model.scheduler.UniqueReminderList;
+//import seedu.address.model.scheduler.Reminder;
+//import seedu.address.model.scheduler.UniqueReminderList;
 import seedu.address.model.student.Student;
+//import seedu.address.model.student.UniqueStudentList;
 
 /**
  * Represents the in-memory model of the classroom data.
@@ -29,14 +31,18 @@ public class Notebook implements ReadOnlyNotebook {
     //private Caretaker caretaker;
     private final UniqueClassroomList classrooms;
     private final UniqueLessonList lessons;
-    private final UniqueReminderList reminders;
+    //private final UniqueReminderList reminders;
+    //private final UniqueStudentList students;
+    //private final UniqueAssignmentList assignments;
 
 
     {
         //this.caretaker = new Caretaker(new Memento(currentClassroom()), this.currentClassroom());
         lessons = new UniqueLessonList();
-        reminders = new UniqueReminderList();
+        //reminders = new UniqueReminderList();
         classrooms = new UniqueClassroomList();
+        //students = new UniqueStudentList();
+        //assignments = new UniqueAssignmentList();
     }
 
     public Notebook() {
@@ -50,14 +56,14 @@ public class Notebook implements ReadOnlyNotebook {
             Classroom newClassroom = new Classroom();
             setCurrentClassroom(newClassroom);
         } else {
-            Classroom firstClassroom = getClassroomList().get(0);
+           //Classroom firstClassroom = getClassroomList().get(0);
             setCurrentClassroom(getFirstClassroom());
         }
     }
 
 
     public Classroom currentClassroom() {
-        return classrooms.get(currentClassroom);
+        return currentClassroom;
     }
 
     /**
@@ -67,6 +73,9 @@ public class Notebook implements ReadOnlyNotebook {
     public void resetData(ReadOnlyNotebook newData) {
         requireNonNull(newData);
         setClassrooms(newData.getClassroomList());
+        setLessons(newData.getLessonList());
+        //setAssignments(newData.getClassroomList());
+        //setStudents(newData.getClassroomList());
     }
 
     //=========== Notebook ================================================================================
@@ -114,7 +123,13 @@ public class Notebook implements ReadOnlyNotebook {
     }
 
     public ReadOnlyClassroom getCurrentClassroom() {
-        return currentClassroom();
+        List<Classroom> classroomList = getClassroomList();
+        for (Classroom classroom : classroomList) {
+            if (classroom.getClassroomName().equals(currentClassroom.getClassroomName())) {
+                return classroom;
+            }
+        }
+        return null;
     }
 
     /**
@@ -138,36 +153,69 @@ public class Notebook implements ReadOnlyNotebook {
     }
 
 
+    /**
+     * Replaces the contents of the student list with {@code students}.
+     * {@code students} must not contain duplicate students.
+     */
+    /*
+    public void setStudents(List<Classroom> classrooms) {
+        for (Classroom classroom : classrooms) {
+            for (Student student : classroom.getStudentList()) {
+                if (!this.students.contains(student)) {
+                    this.students.add(student);
+                }
+            }
+        }
+    }
+     */
+
+    /*
+    public void setAssignments(List<Classroom> classrooms) {
+        for (Classroom classroom : classrooms) {
+            for (Assignment assignment : classroom.getAssignmentList()) {
+                if (!this.assignments.contains(assignment)) {
+                    this.assignments.add(assignment);
+                }
+            }
+        }
+    }
+     */
+
+
     public void deleteStudent(Student target) {
+        //students.remove(target);
         currentClassroom().removeStudent(target);
     }
 
 
     public void deleteAssignment(Assignment target) {
+        //assignments.remove(target);
         currentClassroom().removeAssignment(target);
     }
 
 
     public void addStudent(Student student) {
+        //students.add(student);
         currentClassroom().addStudent(student);
     }
 
 
     public void addAssignment(Assignment assignment) {
+        //assignments.add(assignment);
         currentClassroom().addAssignment(assignment);
     }
 
 
     public void setStudent(Student target, Student editedStudent) {
         requireAllNonNull(target, editedStudent);
-
+        //students.setStudent(target, editedStudent);
         currentClassroom().setStudent(target, editedStudent);
     }
 
 
     public void setAssignment(Assignment target, Assignment editedAssignment) {
         requireAllNonNull(target, editedAssignment);
-
+        //assignments.setAssignment(target, editedAssignment);
         currentClassroom().setAssignment(target, editedAssignment);
     }
 
@@ -258,6 +306,7 @@ public class Notebook implements ReadOnlyNotebook {
     }
     */
 
+    /*
     public ObservableList<Student> getStudentList() {
         return currentClassroom().getStudentList();
     }
@@ -265,6 +314,7 @@ public class Notebook implements ReadOnlyNotebook {
     public ObservableList<Assignment> getAssignmentList() {
         return currentClassroom().getAssignmentList();
     }
+     */
 
     /*
     public List<Classroom> getClassroomList() {
@@ -274,9 +324,11 @@ public class Notebook implements ReadOnlyNotebook {
     }
      */
 
+    /*
     public ObservableList<Reminder> getReminderList() {
         return reminders.asUnmodifiableObservableList();
     }
+     */
 
     public ObservableList<Lesson> getLessonList() {
         return lessons.asUnmodifiableObservableList();
@@ -324,7 +376,10 @@ public class Notebook implements ReadOnlyNotebook {
 
         // state check
         Notebook other = (Notebook) obj;
-        return classrooms.equals(other.classrooms);
+        return classrooms.equals(other.classrooms)
+                && lessons.equals(other.lessons);
+                //&& students.equals(other.students)
+                //&& assignments.equals(other.assignments);
     }
 
 }
