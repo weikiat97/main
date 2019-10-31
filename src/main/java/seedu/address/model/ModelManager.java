@@ -116,6 +116,12 @@ public class ModelManager implements Model {
         return notebook.hasClassroom(classroom);
     }
 
+
+    @Override
+    public boolean hasClassroom(String classroomName) {
+        return notebook.hasClassroom(classroomName);
+    }
+
     @Override
     public void addClassroom(Classroom classroom) {
         notebook.addClassroom(classroom);

@@ -100,6 +100,16 @@ public class Notebook implements ReadOnlyNotebook {
         return classrooms.contains(classroom);
     }
 
+    public boolean hasClassroom(String classroomName) {
+        requireNonNull(classroomName);
+        for (Classroom classroom : classrooms) {
+            if (classroom.getClassroomName().equals(classroomName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Adds the classroom to the notebook.
      * @param classroom classroom to add to notebook.

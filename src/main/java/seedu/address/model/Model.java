@@ -71,6 +71,8 @@ public interface Model {
 
     boolean hasClassroom(Classroom classroom);
 
+    boolean hasClassroom(String classroom);
+
     /**
      * Returns true if a student with the same identity as {@code student} exists in the classroom.
      */
