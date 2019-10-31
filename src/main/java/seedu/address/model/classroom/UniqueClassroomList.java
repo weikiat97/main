@@ -57,10 +57,8 @@ public class UniqueClassroomList implements Iterable<Classroom> {
      */
     public Classroom get(Classroom toGet) {
         requireNonNull(toGet);
-        for (Classroom classroom : internalList) {
-            if (classroom.equals(toGet)) {
-                return classroom;
-            }
+        if (internalList.contains(toGet)) {
+            return toGet;
         }
         return null;
     }

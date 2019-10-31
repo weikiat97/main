@@ -70,6 +70,8 @@ public interface Model {
     /** Returns the Notebook */
     ReadOnlyNotebook getNotebook();
 
+    boolean hasClassroom(Classroom classroom);
+
     /**
      * Returns true if a student with the same identity as {@code student} exists in the classroom.
      */
@@ -184,4 +186,7 @@ public interface Model {
     void setLesson(Lesson target, Lesson editedLesson);
 
 
+    void addClassroom(Classroom classroom);
+    void setCurrentClassroom(Classroom classroom);
+    ObservableList<Classroom> getClassroomList();
 }
