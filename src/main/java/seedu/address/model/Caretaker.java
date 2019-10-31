@@ -13,13 +13,13 @@ public class Caretaker extends Notebook {
 
     /**
      * Initializes the list of mementos.
-     * @param start the first state of the notebook.
      * @param notebook the notebook where changes are updated in
      */
-    public Caretaker(Memento start, Notebook notebook) {
+    public Caretaker(Notebook notebook) {
         statePointer = 0;
-        mementos.add(start);
         this.notebook = notebook;
+        mementos.add(new Memento(new Notebook(this.notebook)));
+        System.out.println("START: ");
         mementos.get(statePointer).getState().getClassroomList().get(0).getAssignmentList().forEach(assignment -> System.out.println(assignment));
     }
 
