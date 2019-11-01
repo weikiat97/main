@@ -74,6 +74,7 @@ public class Notebook implements ReadOnlyNotebook {
         requireNonNull(newData);
         setClassrooms(newData.getClassroomList());
         setLessons(newData.getLessonList());
+        setCurrentReadOnlyClassroom(newData.getCurrentReadOnlyClassroom());
         //setAssignments(newData.getClassroomList());
         //setStudents(newData.getClassroomList());
     }
@@ -88,6 +89,26 @@ public class Notebook implements ReadOnlyNotebook {
         if (hasClassroom(classroom)) {
             this.currentClassroom = classrooms.get(classroom);
         }
+    }
+
+    public void setCurrentReadOnlyClassroom(ReadOnlyClassroom classroom) {
+        requireNonNull(classroom);
+        if (currentClassroom() != null) {
+            currentClassroom().resetData(classroom);
+        }
+    }
+
+    public ReadOnlyClassroom getCurrentReadOnlyClassroom() {
+        if (this.currentClassroom() != null) {
+            return this.currentClassroom();
+        } else {
+            return getFirstReadOnlyClassroom();
+        }
+    }
+
+    public ReadOnlyClassroom getFirstReadOnlyClassroom() {
+        List<Classroom> classroomList = classrooms.asUnmodifiableObservableList();
+        return classroomList.get(0);
     }
 
     public Classroom getFirstClassroom() {

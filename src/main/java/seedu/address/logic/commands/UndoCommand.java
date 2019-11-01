@@ -24,6 +24,9 @@ public class UndoCommand extends Command {
             throw new CommandException(MESSAGE_UNDO_FAILURE);
         }
         ReadOnlyNotebook previousNotebook = model.undo();
+        System.out.println("AMIHERE");
+        previousNotebook.getClassroomList().get(0).getAssignmentList()
+                .forEach(assignment -> System.out.println(assignment));
         model.updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
         model.updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
         model.setNotebook(previousNotebook);

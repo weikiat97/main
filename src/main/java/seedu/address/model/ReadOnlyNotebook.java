@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.classroom.Classroom;
+import seedu.address.model.classroom.ReadOnlyClassroom;
 import seedu.address.model.lesson.Lesson;
 
 /**
@@ -19,4 +20,10 @@ public interface ReadOnlyNotebook {
      * This list will not contain any duplicate lessons.
      */
     ObservableList<Lesson> getLessonList();
+
+    /**
+     * Returns an unmodifiable view of the current classroom.
+     * This current classroom will not contain any duplicate students or assignments.
+     */
+    ReadOnlyClassroom getCurrentReadOnlyClassroom();
 }

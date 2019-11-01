@@ -34,10 +34,10 @@ Teacher’s Notebook is for teachers who prefer to make use of an application to
 == Features
 
 ====
-*Command Format*
-* Words in UPPER_CASE are the parameters supplied by the user e.g. in addclass cn/CLASS, CLASS is a parameter which can be used as addclass cn/4C.
-* Items in square brackets are optional e.g. n/NAME [m/MEDICAL_CONDITION] can be used as n/John Doe m/Sinus or n/John Doe.
-* Items with … after them can be used multiple times including zero times e.g. [m/MEDICAL_CONDITIONS]... can be used as   (i.e. 0 times), m/Sinus, m/Sinus m/Asthma etc.
+*Command Format* +
+* Words in UPPER_CASE are the parameters supplied by the user e.g. in addclass cn/CLASS, CLASS is a parameter which can be used as addclass cn/4C. +
+* Items in square brackets are optional e.g. n/NAME [m/MEDICAL_CONDITION] can be used as n/John Doe m/Sinus or n/John Doe. +
+* Items with … after them can be used multiple times including zero times e.g. [m/MEDICAL_CONDITIONS]... can be used as   (i.e. 0 times), m/Sinus, m/Sinus m/Asthma etc. +
 * Parameters can be in any order e.g. if the command specifies n/NAME i/INDEX, n/NAME, i/INDEX is also acceptable
 ====
 
@@ -73,12 +73,12 @@ Format: addstudent n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pp/PARENT_PHONE_NUMBE
 
 Examples: +
 * addstudent n/John Doe p/91234567 e/john.doe@gmail.com a/John Street, Block 123, #01-01 pp/92222222 +
-* addstudent n/Jane Doe p/98765432 e/jane.doe@gmail.com a/Jane Street, Block 123, #10-10 pp/93333333
+* addstudent n/Jane Doe p/98765432 e/jane.doe@gmail.com a/Jane Street, Block 123, #10-10 pp/93333333 m/Sinus
 
 ==== Assignments
 
 Adds an assignment to the assignment list of current class. +
-Format: addassignment as/ASSIGNMENT d/DEADLINE
+Format: addassignment as/ASSIGNMENT d/DEADLINE. Deadline must be in dd/MM/yyy HHmm format.
 
 Examples: +
 * addassignment as/CS2103 Team Project d/31/10/2019 1800 +
@@ -87,7 +87,7 @@ Examples: +
 ==== Lessons
 
 Adds a lesson to the lesson list in the notebook. +
-Format: addlesson l/LESSON st/START_TIME et/ET_TIME
+Format: addlesson l/LESSON st/START_TIME et/ET_TIME. Start time and end time must be in dd/MM/yyyy HHmm format.
 
 Examples: +
 * addlesson l/4E3 Math st/31/10/2019 1800 et/31/10/2019 2000 +
@@ -108,12 +108,21 @@ Examples: +
 * editstudent 2 p/91111111 +
 * editstudent 4 e/new_email@gmail.com
 
+==== Lessons’ information
+
+Edits an existing lesson in the lesson list. +
+Format: editlesson LESSON_INDEX day/DAY_INDEX [l/LESSON_NAME] [st/START_TIME] [et/END_TIME]
+
+Examples: +
+* editstudent 2 day/2 l/4C3 Math +
+* editstudent 4 day/3 st/01/11/2019 1200 et/01/11/2019 1400
+
 // end::edit[]
 
 //tag:: upload[]
 === Upload: upload
 
-=== Students' display picture
+==== Students' display picture
 
 Uploads a display picture for existing student in student list in current classroom.
 
@@ -164,7 +173,7 @@ Examples: +
 //tag::reminder[]
 === Sending reminders to teachers
 
-Sends system notification to user 10 minutes before event (assumes user keeps program running continuously). +
+Sends system notification to user at the time of the event (assumes user keeps program running continuously). +
 Format: none, reminder should come automatically
 
 //end::reminder[]
@@ -200,43 +209,27 @@ Examples: +
 === Deleting: delete
 
 ==== Deleting student
-Deletes the student in the index from the current classroom.
+Deletes the student in the index from the current classroom. +
 Format: deletestudent STUDENT_INDEX
 
 Examples: +
 * deletestudent 3
 
 ==== Deleting assignment
-Deletes the assignment in the index from the current classroom.
+Deletes the assignment in the index from the current classroom. +
 Format: deleteassignment ASSIGNMENT_INDEX
 
 Examples: +
 * deleteassignment 3
 
-==== Deleting assignment
-Deletes the assignment in the index from the current classroom.
-Format: deleteassignment ASSIGNMENT_INDEX
+==== Deleting lesson
+Deletes the lesson in the index from the teacher's notebook.
+Format: deletelesson LESSON_INDEX
 
 Examples: +
-* deleteassignment 3
+* deletelesson 1
 
 //end::delete[]
-
-//tag::undo[]
-=== Undo: undo
-
-Restores application to the state before previous command was executed.
-Format: undo
-
-//end::undo[]
-
-//tag::redo[]
-=== Redo: redo
-
-Restores application to the state before previous undo command was executed.
-Format: redo
-
-//end::redo[]
 
 //tag::history[]
 === History
@@ -276,8 +269,8 @@ e.g. addlesson l/4C3 Math st/11/11/2011 1800 et/11/11/2011 2000
 * Edit Student: editstudent STUDENT_INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] +
 [m/MEDICAL_CONDITIONS], [t/TAG] +
 e.g. editstudent 2 p/91111111
-* Edit Lesson: editlesson LESSON_INDEX [l/LESSON_NAME] [st/START_TIME] [et/END_TIME] +
-e.g. editlesson 3 l/4C3 Mathematics
+* Edit Lesson: editlesson LESSON_INDEX day/DAY_INDEX [l/LESSON_NAME] [st/START_TIME] [et/END_TIME] +
+e.g. editlesson 3 day/3 l/4C3 Mathematics
 * Edit Assignment: editassignment ASSIGNMNET_INDEX [as/ASSIGNMENT_NAME] [d/DEADLINE] +
 e.g. editassignment 2 d/31/10/2019 2359
 * Update: grades as/ASSIGNMENT_INDEX [s/STUDENT_INDEX] g/GRADE_ONE GRADE_TWO GRADE_THREE... +
@@ -296,8 +289,4 @@ e.g. deletestudent 3
 e.g. deleteassignment 4
 * Delete Lesson: deletelesson LESSON_INDEX +
 e.g. deletelesson 5
-* Undo: undo
-* Redo: redo
-* Generate: generate CLASSNAME +
-e.g. generate 4C
 * Exit: exit
