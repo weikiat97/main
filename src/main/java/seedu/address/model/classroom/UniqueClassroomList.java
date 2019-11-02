@@ -124,6 +124,7 @@ public class UniqueClassroomList implements Iterable<Classroom> {
         if (!classroomsAreUnique(classrooms)) {
             throw new DuplicateClassroomException();
         }
+
         internalList.setAll(classrooms);
     }
 
