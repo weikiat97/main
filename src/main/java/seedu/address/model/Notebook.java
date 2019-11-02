@@ -73,6 +73,11 @@ public class Notebook implements ReadOnlyNotebook {
     public void resetData(ReadOnlyNotebook newData) {
         requireNonNull(newData);
         setClassrooms(newData.getClassroomList());
+        int i = 0;
+        for (Classroom classroom : classrooms) {
+            classroom.resetData(newData.getClassroomList().get(i));
+            i++;
+        }
     }
 
     //=========== Notebook ================================================================================
@@ -247,9 +252,9 @@ public class Notebook implements ReadOnlyNotebook {
      * Replaces the contents of the lesson list with {@code lessons}.
      * {@code lessons} must not contain duplicate lessons.
      */
-    //public void setLessons(List<Lesson> lessons) {
-    //this.lessons.setLessons(lessons);
-    //}
+    public void setLessonsWeek(List<UniqueLessonList> lessons) {
+        this.lessonLists.setLessons(lessons);
+    }
 
 
     //=========== Filtered Student List Accessors =============================================================
