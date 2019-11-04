@@ -56,19 +56,21 @@ public class Notebook implements ReadOnlyNotebook {
     public Notebook(ReadOnlyNotebook toBeCopied) {
         this();
         resetData(toBeCopied);
-
-        if (classrooms.isEmpty()) {
-            Classroom newClassroom = new Classroom();
-            setCurrentClassroom(newClassroom);
-        } else {
-           //Classroom firstClassroom = getClassroomList().get(0);
-            setCurrentClassroom(getFirstClassroom());
-        }
+        setInitialClassroom();
     }
 
 
     public Classroom currentClassroom() {
         return currentClassroom;
+    }
+
+    public void setInitialClassroom() {
+        if (classrooms.isEmpty()) {
+            Classroom newClassroom = new Classroom();
+            setCurrentClassroom(newClassroom);
+        } else {
+            setCurrentClassroom(getFirstClassroom());
+        }
     }
 
     /**
@@ -258,7 +260,14 @@ public class Notebook implements ReadOnlyNotebook {
 
 
     public void addAssignment(Assignment assignment) {
+        System.out.println("ADDING ASSIGNMENT: " + assignment.getAssignmentName());
         //assignments.add(assignment);
+        System.out.println("CURRENT CLASSROOM: " + currentClassroom().getClassroomName());
+        System.out.println("At Notebook, addAssignment, size of assignmentlist: " + getClassroomList().get(0)
+                .getAssignmentList().size());
+        System.out.println("IMCHECKINGNOW");
+        System.out.println(currentClassroom.getAssignmentList().size());
+        System.out.println(currentClassroom().getAssignmentList().size());
         currentClassroom().addAssignment(assignment);
     }
 

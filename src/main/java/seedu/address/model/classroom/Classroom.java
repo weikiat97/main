@@ -123,6 +123,7 @@ public class Classroom implements ReadOnlyClassroom {
      * The assignment must not already exist in the classroom.
      */
     public void addAssignment(Assignment p) {
+        System.out.println("At classroom: before adding size of assignment: " + getAssignmentList().size());
         assignments.add(p);
     }
 

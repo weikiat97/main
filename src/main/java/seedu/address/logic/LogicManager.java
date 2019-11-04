@@ -48,6 +48,8 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = classroomParser.parseCommand(commandText);
         commandResult = command.execute(model);
+        System.out.println("Assignment list size after executing " + commandText);
+        System.out.println(model.getClassroomList().get(0).getAssignmentList().size());
 
         try {
             storage.saveNotebook(model.getNotebook());

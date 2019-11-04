@@ -181,5 +181,7 @@ public interface Model {
 
     void setCurrentClassroom(Classroom classroom);
 
+    void setCurrentReadOnlyClassroom(ReadOnlyClassroom classroom);
+
     ObservableList<Classroom> getClassroomList();
 }

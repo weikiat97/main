@@ -27,6 +27,7 @@ public class UndoCommand extends Command {
         model.updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
         model.updateFilteredLessonWeekList(PREDICATE_SHOW_ALL_LESSONLISTS);
         model.setNotebook(previousNotebook);
+        model.setCurrentReadOnlyClassroom(previousNotebook.getCurrentClassroom());
         return new CommandResult(MESSAGE_UNDO_SUCCESS);
     }
 }

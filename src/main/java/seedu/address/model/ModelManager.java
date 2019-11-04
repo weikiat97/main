@@ -111,9 +111,14 @@ public class ModelManager implements Model {
 
     @Override
     public void setNotebook(ReadOnlyNotebook notebook) {
+        System.out.println("BEFORE SETTING: " + filteredAssignments.size());
         this.notebook.resetData(notebook);
+        System.out.println("BEFORE FILTERED ASSIGNMENTS NUMBER OF ASSIGNMENTS: "
+                + this.notebook.getClassroomList().get(0).getAssignmentList().size());
+        System.out.println("BEFORE FILTERED ASSIGNMENTS: " + filteredAssignments.size());
         filteredStudents = new FilteredList<>(getCurrentClassroom().getStudentList());
         filteredAssignments = new FilteredList<>(getCurrentClassroom().getAssignmentList());
+        System.out.println("AFTER FILTERED ASSIGNMENTS: " + filteredAssignments.size());
     }
 
     @Override
@@ -134,6 +139,13 @@ public class ModelManager implements Model {
     @Override
     public void setCurrentClassroom(Classroom classroom) {
         notebook.setCurrentClassroom(classroom);
+        filteredStudents = new FilteredList<>(getCurrentClassroom().getStudentList());
+        filteredAssignments = new FilteredList<>(getCurrentClassroom().getAssignmentList());
+    }
+
+    @Override
+    public void setCurrentReadOnlyClassroom(ReadOnlyClassroom classroom) {
+        notebook.setCurrentReadOnlyClassroom(classroom);
         filteredStudents = new FilteredList<>(getCurrentClassroom().getStudentList());
         filteredAssignments = new FilteredList<>(getCurrentClassroom().getAssignmentList());
     }
@@ -173,7 +185,10 @@ public class ModelManager implements Model {
 
     @Override
     public void addAssignment(Assignment assignment) {
+        System.out.println("BEFORE ADDING: " + notebook.getClassroomList().get(0).getAssignmentList().size());
         notebook.addAssignment(assignment);
+        System.out.println("AFTER ADDING: " + notebook.getCurrentReadOnlyClassroom().getAssignmentList().size());
+        //filteredAssignments = new FilteredList<>(getCurrentClassroom().getAssignmentList());
         updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
     }
 

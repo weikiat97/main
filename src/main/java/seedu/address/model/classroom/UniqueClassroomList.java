@@ -132,6 +132,8 @@ public class UniqueClassroomList implements Iterable<Classroom> {
         for (Classroom classroom : classrooms) {
             Classroom classroomToAdd = new Classroom();
             classroomToAdd.resetData(classroom);
+            //classroomToAdd.getStudentList().setAll(classroom.getStudentList());
+            //classroomToAdd.getAssignmentList().setAll(classroom.getAssignmentList());
             listToAdd.add(classroomToAdd);
         }
         for (Classroom classroom : listToAdd) {
@@ -141,6 +143,7 @@ public class UniqueClassroomList implements Iterable<Classroom> {
             throw new DuplicateClassroomException();
         }
         internalList.setAll(listToAdd);
+        System.out.println("SIZE OF INTERNAL LIST: " + internalList.size());
     }
 
     public boolean isEmpty() {

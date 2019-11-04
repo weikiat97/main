@@ -28,6 +28,7 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
     private final ObservableList<Assignment> internalList = FXCollections.observableArrayList();
     private final ObservableList<Assignment> internalUnmodifiableList =
         FXCollections.unmodifiableObservableList(internalList);
+    private final AssignmentComparator assignmentComparator = new AssignmentComparator();
 
     /**
      * Returns true if the list contains an equivalent assignment as the given argument.
@@ -46,8 +47,12 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
         if (contains(toAdd)) {
             throw new DuplicateAssignmentException();
         }
+        System.out.println("IN UNIQUEASSIGNMENTLIST BEFORE SIZE: " + internalList.size());
+        System.out.println("IN UNIQUEASSIGNMENTLIST: " + toAdd.getAssignmentName());
         internalList.add(toAdd);
-        internalList.sort(new AssignmentComparator());
+        System.out.println("IN UNIQUEASSIGNMENTLIST SIZE: " + internalList.size());
+        internalList.sort(assignmentComparator);
+
     }
 
     /**
@@ -69,7 +74,7 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
         }
 
         internalList.set(index, editedAssignment);
-        internalList.sort(new AssignmentComparator());
+        internalList.sort(assignmentComparator);
 
     }
 
@@ -82,13 +87,13 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
         if (!internalList.remove(toRemove)) {
             throw new AssignmentNotFoundException();
         }
-        internalList.sort(new AssignmentComparator());
+        internalList.sort(assignmentComparator);
     }
 
     public void setAssignments(UniqueAssignmentList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
-        internalList.sort(new AssignmentComparator());
+        internalList.sort(assignmentComparator);
 
     }
 
@@ -103,7 +108,8 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
         }
 
         internalList.setAll(assignments);
-        internalList.sort(new AssignmentComparator());
+        internalList.sort(assignmentComparator);
+        System.out.println("SIZE OF INTERNAL LIST ASSIGNMENT: " + internalList.size());
 
     }
 
