@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.student.Address;
+//import seedu.address.model.student.DisplayPicture;
 import seedu.address.model.student.Email;
 import seedu.address.model.student.MedicalCondition;
 import seedu.address.model.student.Name;
@@ -19,11 +20,12 @@ import seedu.address.model.util.SampleDataUtil;
 public class StudentBuilder {
 
     public static final String DEFAULT_NAME = "Alice Pauline";
-    public static final String DEFAULT_PHONE = "85355255";
+    public static final String DEFAULT_PHONE = "94351253";
     public static final String DEFAULT_EMAIL = "alice@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PARENTPHONE = "888776655";
     public static final String DEFAULT_MEDICALCONDITION = "Sinus";
+    public static final String DEFAULT_DISPLAYPICTURE = "/images/themyth.png";
 
     private Name name;
     private Phone phone;
@@ -31,6 +33,7 @@ public class StudentBuilder {
     private Address address;
     private ParentPhone parentPhone;
     private MedicalCondition medicalCondition;
+    private String displayPicture;
     private Set<Tag> tags;
 
     public StudentBuilder() {
@@ -40,6 +43,7 @@ public class StudentBuilder {
         address = new Address(DEFAULT_ADDRESS);
         parentPhone = new ParentPhone(DEFAULT_PARENTPHONE);
         medicalCondition = new MedicalCondition(DEFAULT_MEDICALCONDITION);
+        displayPicture = DEFAULT_DISPLAYPICTURE;
         tags = new HashSet<>();
     }
 
@@ -53,6 +57,7 @@ public class StudentBuilder {
         address = studentToCopy.getAddress();
         parentPhone = studentToCopy.getParentPhone();
         medicalCondition = studentToCopy.getMedicalCondition();
+        displayPicture = studentToCopy.getDefaultDisplayPicture();
         tags = new HashSet<>(studentToCopy.getTags());
     }
 
@@ -61,6 +66,14 @@ public class StudentBuilder {
      */
     public StudentBuilder withName(String name) {
         this.name = new Name(name);
+        return this;
+    }
+
+    /**
+     * Sets the {@code DisplayPicture} of the {@code Student} that we are building.
+     */
+    public StudentBuilder withDisplayPicture(String displayPicture) {
+        this.displayPicture = displayPicture;
         return this;
     }
 

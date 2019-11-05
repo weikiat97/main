@@ -26,8 +26,8 @@ public class TypicalStudents {
 
     public static final Student ALICE = new StudentBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
-            .withPhone("94351253")
-            .withTags("friends").build();
+            .withPhone("94351253").withDisplayPicture("/images/themyth.png")
+            .withTags("friends").withMedicalCondition("Sinus").withParentPhone("888776655").build();
     public static final Student BENSON = new StudentBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com").withPhone("98765432")
@@ -36,17 +36,17 @@ public class TypicalStudents {
             .withEmail("heinz@example.com").withAddress("wall street").build();
     public static final Student DANIEL = new StudentBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street").withTags("friends").build();
-    public static final Student ELLE = new StudentBuilder().withName("Elle Meyer").withPhone("9482224")
+    public static final Student ELLE = new StudentBuilder().withName("Elle Meyer").withPhone("94822242")
             .withEmail("werner@example.com").withAddress("michegan ave").build();
-    public static final Student FIONA = new StudentBuilder().withName("Fiona Kunz").withPhone("9482427")
+    public static final Student FIONA = new StudentBuilder().withName("Fiona Kunz").withPhone("94824271")
             .withEmail("lydia@example.com").withAddress("little tokyo").build();
-    public static final Student GEORGE = new StudentBuilder().withName("George Best").withPhone("9482442")
+    public static final Student GEORGE = new StudentBuilder().withName("George Best").withPhone("94824432")
             .withEmail("anna@example.com").withAddress("4th street").build();
 
     // Manually added
-    public static final Student HOON = new StudentBuilder().withName("Hoon Meier").withPhone("8482424")
+    public static final Student HOON = new StudentBuilder().withName("Hoon Meier").withPhone("84824254")
             .withEmail("stefan@example.com").withAddress("little india").build();
-    public static final Student IDA = new StudentBuilder().withName("Ida Mueller").withPhone("8482131")
+    public static final Student IDA = new StudentBuilder().withName("Ida Mueller").withPhone("84822131")
             .withEmail("hans@example.com").withAddress("chicago ave").build();
 
     // Manually added - Student's details found in {@code CommandTestUtil}
