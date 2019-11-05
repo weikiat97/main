@@ -97,6 +97,7 @@ public class UpdateGradesCommand extends Command {
         model.updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
         List<Assignment> lastShownAssignmentList = model.getFilteredAssignmentList();
         List<Student> lastShownStudentList = model.getFilteredStudentList();
+        Assignment assignmentToEdit = lastShownAssignmentList.get(assignment.getZeroBased());
 
         if (assignment.getZeroBased() >= lastShownAssignmentList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ASSIGNMENT_DISPLAYED_INDEX);
@@ -105,12 +106,8 @@ public class UpdateGradesCommand extends Command {
         }
 
         if (updatingIndividualGrade) {
-            marks = lastShownAssignmentList.get(assignment.getZeroBased()).marksStringListFromGrades();
-            System.out.println(marks);
+            marks = assignmentToEdit.marksStringListFromGrades();
         }
-
-        Assignment assignmentToEdit;
-        Assignment editedAssignment;
 
         for (Student s : lastShownStudentList) {
             String name = s.getName().fullName;
@@ -122,12 +119,18 @@ public class UpdateGradesCommand extends Command {
             tooManyInputsError += " for " + lastShownStudentList.size() + " students";
             throw new CommandException(tooManyInputsError);
         } else if (updatingIndividualGrade) {
+            if (marks.isEmpty()) {
+                List<String> studentNames = new ArrayList<>();
+                lastShownStudentList.forEach(student -> studentNames.add(student.getName().toString()));
+                assignmentToEdit.initialiseGrades(studentNames);
+                marks = assignmentToEdit.marksStringListFromGrades();
+            }
             marks.set(student.getZeroBased(), gradeToUpdate);
         }
 
         model.updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
-        assignmentToEdit = lastShownAssignmentList.get(assignment.getZeroBased());
-        editedAssignment = createEditedAssignment(assignmentToEdit, students, marks);
+
+        Assignment editedAssignment = createEditedAssignment(assignmentToEdit, students, marks);
 
         if (!assignmentToEdit.isSameAssignment(editedAssignment) && model.hasAssignment(editedAssignment)) {
             throw new CommandException(MESSAGE_DUPLICATE_ASSIGNMENT);

@@ -57,6 +57,18 @@ public class AssignmentGrades {
     }
 
     /**
+     * Replaces the key of the assignmentgrades Hashmap to the new student name.
+     * @param oldStudentName to remove.
+     * @param newStudentName to add.
+     */
+    public void replaceStudentName(String oldStudentName, String newStudentName) {
+        System.out.println(oldStudentName);
+        System.out.println(newStudentName);
+        String grade = assignmentGrades.remove(oldStudentName);
+        assignmentGrades.put(newStudentName, grade);
+    }
+
+    /**
      * Parses a {@code String studentName}.
      * Removes the key-value pair for key: studentName.
      */

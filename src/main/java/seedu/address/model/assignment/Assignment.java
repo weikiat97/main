@@ -56,6 +56,10 @@ public class Assignment {
         return this.assignmentGrades.getGrades();
     }
 
+    public void editStudent(String oldStudentName, String newStudentName) {
+        this.assignmentGrades.replaceStudentName(oldStudentName, newStudentName);
+    }
+
     /**
      * Parses a {@code List<String> grades} and {@code List<Integer> newGrades} to update assignmentGrades.
      *

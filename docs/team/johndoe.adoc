@@ -54,9 +54,9 @@ include::../UserGuide.adoc[tag=add]
 
 include::../UserGuide.adoc[tag=edit]
 
-include::../UserGuide.adoc[tag=list]
+include::../UserGuide.adoc[tag=find]
 
-include::../UserGuide.adoc[tag=reminder]
+include::../UserGuide.adoc[tag=get]
 
 include::../UserGuide.adoc[tag=delete]
 

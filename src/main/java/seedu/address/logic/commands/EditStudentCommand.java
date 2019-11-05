@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENTPHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ASSIGNMENTS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_STUDENTS;
 
 import java.util.Collections;
@@ -21,6 +22,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.assignment.Assignment;
 import seedu.address.model.student.Address;
 import seedu.address.model.student.DisplayPicture;
 import seedu.address.model.student.Email;
@@ -91,6 +93,18 @@ public class EditStudentCommand extends Command {
 
         model.setStudent(studentToEdit, editedStudent);
         model.updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
+        /*
+        if (!studentToEdit.getName().equals(editedStudent.getName())) {
+            System.out.println(studentToEdit.getName().toString());
+            System.out.println(editedStudent.getName().toString());
+            List<Assignment> assignmentList = model.getFilteredAssignmentList();
+            for (Assignment assignment : assignmentList) {
+                assignment.editStudent(studentToEdit.getName().toString(), studentToEdit.getName().toString());
+                System.out.println(assignment.getAssignmentName());
+                System.out.println(assignment.namesStringListFromGrades());
+            }
+        }
+         */
         model.saveState();
         return new CommandResult(String.format(MESSAGE_EDIT_STUDENT_SUCCESS, editedStudent));
     }
